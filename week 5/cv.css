@@ -1,0 +1,47 @@
+body {
+    font-family: 'Poppins', sans-serif;
+}
+#navbar {
+    background-color: black;
+    height:30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display:flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+
+}
+#navbar ul li {
+    display: inline;
+    margin-right: 25px;
+}
+#navbar ul li a {
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+}
+h2.title {
+    color:rgb(64, 179, 232);
+    text-decoration: underline;
+    text-underline-offset: 5px;
+}
+
+footer {
+    background-color: black;
+    font-size: smaller;
+    height:40px;
+    color:azure;
+    text-align:center;
+    padding: 30px 0;
+    display:flex;
+    /*text-align: center;*/
+    flex-direction: column;
+    justify-content: center; /*căn theo chiều ngang*/
+    align-items: center; /*căn theo chiều dọc*/
+}
+
+footer p {
+    margin: 5px 0; /*Giảm khoảng cách giữa 2 dòng*/
+    line-height: 1.4; /*Tăng nhẹ độ cân đối giữa các dòng*/
+}
