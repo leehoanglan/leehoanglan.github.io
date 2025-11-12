@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- Single-line comment -->
+    <form>
+        First name: <input type="text" name="firstname"> <br><br>
+        Last name: <input type="text" name="lastname">
+    </form>
+    <br>
+
+    <!-- Multi-line comment  -->
+    <form>
+        Description:<br>
+        <textarea rows="5" cols="50" name="description"> Enter description here...</textarea>
+    </form>
+    <br>
+
+    <!-- Checkboxes (được chọn nhiều option)-->
+    <form>
+        <input type="checkbox" name="maths" value="on"> Maths
+        <input type="checkbox" name="physics" value="on"> Physics
+    </form>
+    <br>
+
+    <!-- Radio buttons (chỉ chọn 1 option) -->
+    <form>
+        <input type="radio" name="subject" value="maths"> Maths
+        <input type="radio" name="subject" value="physics"> Physics
+    </form>
+    <br>
+
+    <!-- Select Box Control/ Drop Down Box (selected là mặc định)-->
+    <form>
+        <select name="dropdown">
+            <option value="maths" selected>Maths</option> 
+            <option value="physics">Physics</option>
+        </select>
+    </form>
+    <br>
+
+    <!-- File Upload Box -->
+    <form>
+        <input type="file" name="fileupload" accept="image/*" />
+    </form>
+    <br>
+
+    <!-- Button Control -->
+    <form>
+        <input type="submit" name="submit" value="Submit">
+        <input type="reset" name="reset" value="Reset">
+        <input type="button" name="ok" value="OK">
+        <input type="image" name="imagebutton" src="images/logo.gif">
+    </form>
+    <br>
+
+    <!-- Date, Color, Email, number, range -->
+    <form>
+        <input type="color" name="favcolor" > 
+        <input type="date" name="bday">
+        <input type="email" name="email">
+        <input type="number" name="quantity" min="1" max="5">
+        <input type="range" name="points" min="0" max="10">
+        <input type="tel" name="usrtel">
+    </form>
+</body>
+</html>
