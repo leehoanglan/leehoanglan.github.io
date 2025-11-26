@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register New Account</title>
+    <link rel="stylesheet" href="ex7-lab.css">
+    <script src="ex7-lab.js"></script>
+</head>
+
+<body>
+
+    <h2 class="title">REGISTER NEW ACCOUNT</h2>
+
+    <form name="frmRegister" onsubmit="return formValid();" method="get">
+
+        <label>Username</label>
+        <input type="text" name="txtUsername"><br>
+
+        <label>Password</label>
+        <input type="password" name="txtPassword1"><br>
+
+        <label>Confirm password</label>
+        <input type="password" name="txtPassword2"><br>
+
+        <label>Gender</label>
+        <input type="radio" name="gender" value="Male"> Male
+        <input type="radio" name="gender" value="Female"> Female
+        <br>
+
+        <label>Phone</label>
+        <input type="text" name="txtPhone"><br>
+
+        <label>Email</label>
+        <input type="text" name="txtEmail"><br>
+
+        <label>Favourite</label>
+        <input type="checkbox" name="chkMusic"> Music
+        <input type="checkbox" name="chkReading"> Reading
+        <br>
+
+        <label>Picture</label>
+        <input type="file" name="flPicture"><br>
+
+        <label>Description</label>
+        <textarea name="txtDescription" rows="4"></textarea><br>
+
+        <label>Education level</label>
+        <select name="edu">
+            <option value="Aptech">Aptech</option>
+            <option value="University">University</option>
+            <option value="College">College</option>
+        </select><br>
+
+        <label>Language</label>
+        <select name="lang" size="4" multiple>
+            <option>Vietnamese</option>
+            <option>English</option>
+            <option>French</option>
+            <option>Japanese</option>
+        </select><br>
+
+        <div class="btn-group">
+            <input type="submit" value="Register">
+            <input type="reset" value="Reset">
+        </div>
+    </form>
+
+</body>
+</html>
