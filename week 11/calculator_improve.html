@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Mini Calculator (Improved)</title>
+<style>
+  /* Basic centered card */
+  :root{
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  }
+  body{
+    display:flex;
+    min-height:100vh;
+    align-items:center;
+    justify-content:center;
+    background: linear-gradient(180deg, #f6f9ff 0%, #ffffff 100%);
+    margin:0;
+    padding:20px;
+  }
+  .card{
+    width:100%;
+    max-width:420px;
+    background: #fff;
+    border-radius:12px;
+    box-shadow: 0 8px 30px rgba(20,30,60,0.08);
+    padding:20px 22px;
+  }
+  h2{
+    margin:0 0 10px 0;
+    font-size:20px;
+    text-align:center;
+    letter-spacing:0.2px;
+  }
+  .row{
+    display:flex;
+    gap:12px;
+    align-items:center;
+    margin-bottom:12px;
+  }
+  label{
+    width:60px;
+    font-size:14px;
+    color:#333;
+  }
+  input[type="text"], select{
+    flex:1;
+    padding:8px 10px;
+    border:1px solid #e2e8f0;
+    border-radius:8px;
+    font-size:15px;
+  }
+  input[readonly]{
+    background:#f8fafc;
+  }
+  .controls{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    margin-top:12px;
+  }
+  button{
+    padding:8px 12px;
+    border-radius:8px;
+    border: none;
+    cursor:pointer;
+    font-weight:600;
+  }
+  .btn-primary{
+    background:#2563eb;
+    color:white;
+  }
+  .btn-secondary{
+    background:#eef2ff;
+    color:#1e293b;
+  }
+  .error{
+    color:#b91c1c;
+    background:#fff1f2;
+    border:1px solid #fecaca;
+    padding:8px;
+    border-radius:8px;
+    font-size:14px;
+    margin-top:8px;
+  }
+  .hint{
+    font-size:12px;
+    color:#475569;
+    margin-top:6px;
+    text-align:center;
+  }
+  .ops{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+    margin-top:8px;
+  }
+  .ops button{
+    background:#f1f5f9;
+    padding:6px 8px;
+    border-radius:6px;
+    font-weight:600;
+  }
+  footer{
+    margin-top:10px;
+    font-size:12px;
+    color:#64748b;
+    text-align:center;
+  }
+</style>
+</head>
+<body>
+  <div class="card" role="main" aria-labelledby="title">
+    <h2 id="title">MINI CALCULATOR (Improved)</h2>
+
+    <div class="row">
+      <label for="a">a =</label>
+      <input id="a" name="txta" type="text" inputmode="decimal" placeholder="Nhập số a" />
+    </div>
+
+    <div class="row">
+      <label for="b">b =</label>
+      <input id="b" name="txtb" type="text" inputmode="decimal" placeholder="Nhập số b" />
+    </div>
+
+    <div class="row">
+      <label for="op">Operator</label>
+      <select id="op" name="slto" aria-label="Operator">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+        <option value="%">%</option>
+        <option value="**">^ (power)</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <label for="r">Result</label>
+      <input id="r" name="txtr" type="text" readonly placeholder="Kết quả sẽ hiện ở đây" />
+    </div>
+
+    <div class="controls">
+      <button id="calcBtn" class="btn-primary" type="button">Calculate</button>
+      <button id="clearBtn" class="btn-secondary" type="button">Clear</button>
+    </div>
+
+    <div class="ops" aria-hidden="true">
+      <!-- nhanh các phép toán gợi ý -->
+      <button type="button" data-op="+">+</button>
+      <button type="button" data-op="-">-</button>
+      <button type="button" data-op="*">*</button>
+      <button type="button" data-op="/">/</button>
+      <button type="button" data-op="%">%</button>
+      <button type="button" data-op="**">^</button>
+    </div>
+
+    <div id="error" class="error" style="display:none" role="alert"></div>
+    <div class="hint">Bạn có thể nhập số âm hoặc số thập phân. Nhập <code>1,23</code> sẽ được chuyển thành <code>1.23</code>.</div>
+
+    <footer>Improved: No eval(), better validation, exponentiation supported.</footer>
+  </div>
+
+<script>
+/*
+  Improved calculate logic:
+  - No eval()
+  - Trim input, allow comma as decimal separator (1,23 -> 1.23)
+  - Use Number.parseFloat and Number.isFinite to validate
+  - Handle division/modulus by zero
+  - Show nice inline error (not alert)
+*/
+
+(function(){
+  const aEl = document.getElementById('a');
+  const bEl = document.getElementById('b');
+  const opEl = document.getElementById('op');
+  const rEl = document.getElementById('r');
+  const errEl = document.getElementById('error');
+  const calcBtn = document.getElementById('calcBtn');
+  const clearBtn = document.getElementById('clearBtn');
+  const opButtons = document.querySelectorAll('.ops button');
+
+  // helper: normalize input string -> try to convert to a number
+  function parseInputToNumber(str){
+    if (typeof str !== 'string') return NaN;
+    const trimmed = str.trim();
+    if (trimmed === '') return NaN;
+    // allow comma as decimal separator by replacing last comma with dot
+    // (simple approach: replace all commas with dots)
+    const normalized = trimmed.replace(/,/g, '.');
+    // disallow things like letters
+    const num = Number.parseFloat(normalized);
+    return num;
+  }
+
+  function showError(msg){
+    errEl.textContent = msg;
+    errEl.style.display = 'block';
+  }
+
+  function clearError(){
+    errEl.textContent = '';
+    errEl.style.display = 'none';
+  }
+
+  function calculate(){
+    clearError();
+    rEl.value = '';
+
+    const rawA = aEl.value;
+    const rawB = bEl.value;
+    const operator = opEl.value;
+
+    const numA = parseInputToNumber(rawA);
+    const numB = parseInputToNumber(rawB);
+
+    // validate inputs
+    if (!Number.isFinite(numA)) {
+      showError('Giá trị a không hợp lệ. Vui lòng nhập một số hợp lệ.');
+      aEl.focus();
+      return;
+    }
+    if (!Number.isFinite(numB)) {
+      showError('Giá trị b không hợp lệ. Vui lòng nhập một số hợp lệ.');
+      bEl.focus();
+      return;
+    }
+
+    // check division or modulus by zero
+    if ((operator === '/' || operator === '%') && numB === 0) {
+      showError('Lỗi: Không thể chia cho 0.');
+      bEl.focus();
+      return;
+    }
+
+    let result;
+    switch(operator) {
+      case '+':
+        result = numA + numB;
+        break;
+      case '-':
+        result = numA - numB;
+        break;
+      case '*':
+        result = numA * numB;
+        break;
+      case '/':
+        result = numA / numB;
+        break;
+      case '%':
+        // JS % is remainder with sign of dividend; we keep this behaviour
+        result = numA % numB;
+        break;
+      case '**':
+        // exponentiation: a ** b
+        // guard against extremely large exponents
+        if (Math.abs(numB) > 1e6) {
+          showError('Số mũ quá lớn, kết quả có thể vô hạn hoặc tốn tài nguyên.');
+          return;
+        }
+        result = Math.pow(numA, numB);
+        break;
+      default:
+        showError('Phép toán không được hỗ trợ.');
+        return;
+    }
+
+    // some post-checks (finite result)
+    if (!Number.isFinite(result)) {
+      showError('Kết quả không xác định hoặc quá lớn để hiển thị.');
+      return;
+    }
+
+    // format result: nếu là số nguyên thì in không có phần thập phân dư, ngược lại in 12 chữ số thập phân tối đa
+    if (Number.isInteger(result)) {
+      rEl.value = result.toString();
+    } else {
+      // trim trailing zeros
+      rEl.value = parseFloat(result.toPrecision(12)).toString();
+    }
+  }
+
+  // event handlers
+  calcBtn.addEventListener('click', calculate);
+  clearBtn.addEventListener('click', function(){
+    aEl.value = '';
+    bEl.value = '';
+    rEl.value = '';
+    clearError();
+    aEl.focus();
+  });
+
+  // allow pressing Enter in any input to calculate
+  [aEl, bEl].forEach(el => {
+    el.addEventListener('keydown', function(e){
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        calculate();
+      }
+    });
+  });
+
+  // quick op buttons
+  opButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      opEl.value = btn.getAttribute('data-op');
+    });
+  });
+
+})();
+</script>
+</body>
+</html>
