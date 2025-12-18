@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Single-line text input controls</h2>
+    <form>
+        First name: <input type="text" name="firstName">
+        <br>
+        Last name: <input type ="text" name="lastName">
+    </form>
+    <h2>Multi-line text input control</h2>
+    <form>
+        Description: <br>
+        <textarea row="5" cols="50" name="description">Enter description here...</textarea>
+    </form>
+    <h2>Checkbox</h2> 
+    <!-- Checkboxes: sử dụng khi chọn nhiều option -->
+     <form>
+        <input type="checkbox" name="maths" value="on"> Maths <br>
+        <input type="checkbox" name="physics" value="on"> Physics
+     </form>
+
+    <h2>Radio buttons</h2>
+    <!-- Radio buttons: sử dụng khi chọn 1 option -->
+     <form>
+        <input type="radio" name="subject" value="maths"> Maths <br>
+        <input type="radio" name="subject" value="physics"> Physics
+     </form>
+
+     <h2>Dropdown list</h2>
+     <form>
+        <select name="dropdown">
+            <option value="Select" selected>Select</option>
+            <option value="Maths">Maths</option>
+            <option value="Physics">Physics</option>
+        </select>
+     </form>
+
+     <h2>File Upload Box</h2>
+     <form>
+        <input type="file" name="fileupload" accept="image/*">
+     </form>
+
+     <h2>Button Controls</h2>
+     <form>
+        <input type="submit" name="submit" value="Submit">
+        <input type="reset" name="reset" value="Reset">
+        <input type="button" name="button" value="Button">
+        <input type="image" name="imagebutton" src="https://sustainablecats.com/wp-content/uploads/2024/05/MAine-Coon-Giant.jpg" height="50px" width="50px">
+     </form>
+     <br>
+     <br>
+     <!-- Date, Color, Email, number, range -->
+      <form>
+         Color: <input type="color" name="favecolor"><br>
+         Date:  <input type="date" name="bday"><br>
+         Email: <input type="email" name="email"><br>
+         <input type="number" name="quantity" min="1" max="5"><br>
+         <input type="range" name="points" min="0" max="100"><br>
+         <input type="tel" name="urstel">
+      </form>
+</body>
+</html>
